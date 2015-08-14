@@ -1,6 +1,6 @@
 angular.module('homeHarmony.tasks', ['firebase', 'ngMessages'])
 
-.controller('tasksCtrl', function($scope, $firebaseObject, $q){
+.controller('tasksCtrl', function($scope, $firebaseObject, $q, DButil){
 
   var db = new Firebase("https://dazzling-inferno-3592.firebaseio.com");
 
@@ -10,6 +10,7 @@ angular.module('homeHarmony.tasks', ['firebase', 'ngMessages'])
   var sortCompTaskByDateArr;
   var sortByDateArr;
   $scope.tasks.currentDate = new Date();
+
 
   currentHouseId = localStorage.getItem('currentHouseId');
   currentUserId = localStorage.getItem("currentUserId");
