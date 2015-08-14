@@ -4,6 +4,7 @@ angular.module('homeHarmony.util', ['firebase'])
   var db = new Firebase("https://dazzling-inferno-3592.firebaseio.com");
   return {
 
+
     getUserIdFromEmail: function(userEmail, cb){
       db.once("value", function(snapshot) {
         var usersDb = snapshot.val().users;
@@ -48,7 +49,7 @@ angular.module('homeHarmony.util', ['firebase'])
           }
 
         }
-      }
+      })
     }
   };
 });
