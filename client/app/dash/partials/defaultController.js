@@ -19,13 +19,14 @@ angular.module('homeHarmony.default', ['firebase'])
 
   // Initialize variables
   var expensesDb, expensesArr, dataObj, issuesDb, issuesArr;
-  var usersDb, usersArr, tasksDb, tasksArr, tasksNotCompletedCount;
+  var usersDb, memberObj, usersArr, tasksDb, tasksArr, tasksNotCompletedCount;
 
   // query database
   db.once("value", function(snapshot) {
     tasksNotCompletedCount = 0;
     expensesArr = [];
     issuesArr = [];
+    memberObj = {};
     usersArr = [];
     tasksArr = [];
 
@@ -62,14 +63,18 @@ angular.module('homeHarmony.default', ['firebase'])
       $scope.issuesArr = issuesArr;
     });
 
-    for (var user in usersDb) {
-      usersArr.push(usersDb[user]);
+    // for (var user in usersDb) {
+    //   usersArr.push(usersDb[user]);
+    // }
+    memberObj = JSON.parse(localStorage.getItem("currentMembersObj"))
+    for (var memberId in memberObj) {
+      usersArr.push(memberObj[memberId])
     }
     // Execute only after userssArr is ready
     $q.all(usersArr).then(function() {
       // Place on scope to be displayed
       $scope.usersArr = usersArr;
-      // localStorage.setItem("currentUsersArr", JSON.stringify(usersArr));
+      console.log($scope.usersArr)
     });
     // See how many tasks are not yet completed
     for (var task in tasksDb) {

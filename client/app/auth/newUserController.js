@@ -15,12 +15,18 @@ angular.module('homeHarmony.newUser', ['firebase'])
     $('#newLastNameField').val('');
     $('#newHouseID').val('');
     // Object that will be added to database
+    var hasHouse = false;
     var userObj = {
       firstname: $scope.firstname,
       lastname: $scope.lastname,
       email: $scope.email
       // Users house starts as undefined
     };
+
+    if ($scope.houseId) {
+      hasHouse = true;
+      userObj.house = $scope.houseId;
+    }
     // Add user object to auth database
     UserAuth.newUser(userObj.email, $scope.password, function(userEmail) {
       db.child('users').once('value', function(snapshot) {
@@ -32,6 +38,9 @@ angular.module('homeHarmony.newUser', ['firebase'])
             localStorage.setItem("currentUserEmail", userEmail);
             localStorage.setItem("currentUserName", userDb[uid].firstname);
             localStorage.setItem("currentUserId", currentUserId);
+            if (hasHouse) {
+              localStorage.setItem("currentHouseId", userDb[uid].house);
+            }
           }
         }
       });
@@ -40,6 +49,10 @@ angular.module('homeHarmony.newUser', ['firebase'])
       db.child('users').push(userObj);
     });
     // redirect to new house page
-    $state.go('dash.newHouse');
+    if (!hasHouse) {
+      $state.go('newHouse');
+    } else {
+      $state.go('dash.default');
+    }
   };
 });

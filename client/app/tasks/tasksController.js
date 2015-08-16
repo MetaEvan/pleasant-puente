@@ -8,15 +8,14 @@ angular.module('homeHarmony.tasks', ['firebase', 'ngMessages'])
   $scope.tasks = {};
   $scope.tasks.taskArr;
   $scope.tasks.compTaskArr;
+  $scope.houseMemberArr = [];
   $scope.tasks.currentDate = new Date();
 
   // Populates select element on tasks form with house member names
   var houseMemberObj = JSON.parse(localStorage.getItem('currentMembersObj'));
-  var houseMemberArr = [];
   for (var memberIDs in houseMemberObj){
-    houseMemberArr.push(houseMemberObj[memberIDs])
+    $scope.houseMemberArr.push(houseMemberObj[memberIDs])
   }
-  $scope.houseMemberArr = houseMemberArr.slice();
 
   currentHouseId = localStorage.getItem('currentHouseId');
   currentUserId = localStorage.getItem("currentUserId");

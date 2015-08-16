@@ -20,21 +20,21 @@ angular.module('homeHarmony.newHouse', ['firebase'])
     // query database to find desired house
     db.once("value", function(snapshot) {
       housesDb = snapshot.val().houses;
-      for (var hid in housesDb) {
-        if (hid === $scope.chosenHouse) {
-          if (!housesDb[hid].houseMembers) {
+      for (var houseId in housesDb) {
+        if (houseId === $scope.chosenHouse) {
+          if (!housesDb[houseId].houseMembers) {
             // if there are no members, create a member list with current user
             var members = {};
             members[currentUserId] = localStorage.getItem("currentUserEmail");
             // push list to database
-            db.child('houses').child(hid).update({
+            db.child('houses').child(houseId).update({
               houseMembers: members
             });
           } else {
             // else add user to member list and push to database
-            var memberList = housesDb[hid].houseMembers;
+            var memberList = housesDb[houseId].houseMembers;
             memberList[currentUserId] = localStorage.getItem("currentUserEmail");
-            db.child('houses').child(hid).child('houseMembers').set(memberList);
+            db.child('houses').child(houseId).child('houseMembers').set(memberList);
           }
           // redirect to dashboard
           $state.go('dash.default');
